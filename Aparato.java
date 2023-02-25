@@ -35,4 +35,9 @@ public class Aparato {
 				
 	}
 	
+	public void setInterruptorOn() {
+		interruptor = true;
+				
+	}
+	
 }

@@ -93,7 +93,6 @@ public class Main {
 						if (nifExiste) {
 							//Comprobamos si el precio es mas grande que 0
 							if (numPrecio > 0) {
-								System.out.println("precio ok");
 								//Verificamos si la placa cabe
 								
 								// Buscamos la posicion de la casa en la lista
@@ -109,6 +108,8 @@ public class Main {
 								PlacaSolar nuevaPlaca = new PlacaSolar(numSuperficie, numPrecio,numPotencia);
 								
 								listaCasas.get(posCasa).setPlaca(nuevaPlaca);
+								
+								System.out.println("OK: Placa afegida a la casa.");
 									
 								//Si la placa no cabe
 								}else {
@@ -206,7 +207,7 @@ public class Main {
 							if (!listaCasas.get(posCasa).getInterruptor() ){
 								
 								//encendemos el interruptor de la casa llamando al metodo set
-								listaCasas.get(posCasa).setInterruptor();						
+								listaCasas.get(posCasa).setInterruptorOn();						
 								System.out.println("OK: Interruptor general activat.");
 								
 								
@@ -248,18 +249,42 @@ public class Main {
 								boolean compruebaDescrip = listaCasas.get(posCasa).compruebaAparato(dades[2]);
 								
 								if (compruebaDescrip) {
+									//Primero encendemos el aparato, despues comprobamos si supera de potencia
+									//Buscamos la posicion del aparato en la lista de aparatos de la casa
+									short posAparato = Funciones.buscaAparell(dades[2],listaCasas.get(posCasa).getAparatos() );
 									
-									//Obtenemos las potencias generadas y gastadas(A la gastada tambien sumamos la del aparato que vamos a encender)
+									Aparato aparato = (Aparato) listaCasas.get(posCasa).getAparatos().get(posAparato);
+																		
+									aparato.setInterruptorOn();
+									
+
+									
+									//Obtenemos las potencias generadas y gastadas
 									short potenciaGenerada = listaCasas.get(posCasa).potenciaGenerada();
 									short potenciaGastada = listaCasas.get(posCasa).potenciaGastada() ;
-									
+
 									//Comparamos las potencias
-									if (potenciaGenerada > potenciaGenerada ) {
+									//Si la potencia generada es menor que la gastada
+									if (potenciaGenerada < potenciaGastada ) {
 										
+										//Apagamos el interruptor general de la casa
+										listaCasas.get(posCasa).setInterruptorOff();		
+										
+										
+										//Apagamos todos los interruptores de los aparatos
+										for (short i = 0; i < listaCasas.get(posCasa).getAparatos().size();i++) {
+											Aparato aparell = (Aparato) listaCasas.get(posCasa).getAparatos().get(i);
+											
+											aparell.setInterruptorOff();
+											}
+																				
+										System.out.println("ERROR: Han saltat els ploms. La casa ha quedat completament apagada.");
+									
+										
+									//Si la potencia generada es mayor que la gastada
+									}else {
+										System.out.println("OK: Aparell encès.");
 									}
-									
-									
-									
 									
 								//Esta casa no tiene este aparato
 								}else {
@@ -282,31 +307,92 @@ public class Main {
 						System.out.println("ERROR: Número de paràmetres incorrecte.");
 					}
 					
-					
-					
-					
-					
-					
-					
-					
-					
-					
 					break;
 				
-					
-					
-					
-					
-					
-					
+
 					
 					
 					
 					
 				//Cuando el comando es offAparell. 	
+					//offAparell [nif] [descripció aparell]
 				case "offAparell":
-					System.out.println("Apagar Aparato");
+					//Comprobamos que el numero de parametros sea correcto
+					if (dades.length == 3) {
+						//Comprobamos que el nif tenga casa
+						boolean nifExiste = Funciones.buscaNif(dades[1],listaCasas);
+						
+						if (nifExiste) {
+							// Buscamos la posicion de la casa en la lista
+							short posCasa = Funciones.buscaCasa(dades[1], listaCasas);
+							
+							//Comprobamos si la casa tiene este aparato
+							boolean compruebaDescrip = listaCasas.get(posCasa).compruebaAparato(dades[2]);
+							if (compruebaDescrip) {
+								//Buscamos la posicion del aparato en la lista de aparatos de la casa
+								short posAparato = Funciones.buscaAparell(dades[2],listaCasas.get(posCasa).getAparatos() );
+								
+								//Comprobamos si este aparato ya esta apagado
+								Aparato aparato = (Aparato) listaCasas.get(posCasa).getAparatos().get(posAparato);
+								
+								
+								//Detecta si esta encendido o apagado el aparato. Queda apagar el aparato si esta encendido
+								if (aparato.getInterruptor()) {
+									aparato.setInterruptorOff();
+									System.out.println("OK: Aparell apagat.");
+									
+								}else {
+									System.out.println("ERROR: L'aparell ja està apagat.");
+								}
+								
+								
+								
+								
+								
+							//Esta casa no tiene este aparato
+							}else {
+								System.out.println("ERROR: No hi ha cap aparell registrat amb aquesta descripció a la casa indicada.");
+							}
+												
+						//El nif no tiene casa asignada
+						}else {
+							System.out.println("ERROR: No hi ha cap casa registrada amb aquest nif.");
+						}
+
+					//Si el numero de parametros no es correcto
+					}else {
+						System.out.println("ERROR: Número de paràmetres incorrecte.");
+					}
+					
+					
+					
+					
+					
+					
 					break;
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
 					
 				//Cuando el comando es list. 	
 				case "list":

@@ -55,8 +55,12 @@ public class Casa {
 		listaAparatos.add(nuevoAparato);
 	}
 	
-	public void setInterruptor() {
+	public void setInterruptorOn() {
 		interruptor = true;
+	}
+	
+	public void setInterruptorOff() {
+		interruptor = false;
 	}
 	
 	

@@ -43,6 +43,24 @@ public class Funciones {
 	}
 	
 //---------------------------------------------------------------------
+	//Funcion que devuelve la posicion de un aparato en la lista de aparatos de una casa
+	//Devuelve la posicion exacta del aparato en la lista.
+	
+	static short buscaAparell(String descripcio, ArrayList <Aparato> listaAparatos) {
+		short res = -1;
+		short i = 0;
+		
+			while(i<listaAparatos.size() && res == -1){
+				if (listaAparatos.get(i).getDescripcion().equalsIgnoreCase(descripcio)){
+					res = i;
+				}
+				i++;
+			}
+		
+		return res;
+		
+	}
+	
 	
 	
 	
