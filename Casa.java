@@ -37,11 +37,11 @@ public class Casa {
 		return interruptor;
 	}
 	
-	public ArrayList getPlacas() {
+	public ArrayList<PlacaSolar> getPlacas() {
 		return listaPlacas;
 	}
 	
-	public ArrayList getAparatos() {
+	public ArrayList<Aparato> getAparatos() {
 		return listaAparatos;
 	}
 	
@@ -131,6 +131,19 @@ public class Casa {
 		}
 		
 		return potenciaTotal;
+	}
+	
+	public double inversion() {
+		double dinero = 0;
+		
+		//Recorremos la lista de placas y sumamos lo que cuesta
+		for (short i = 0;i<listaPlacas.size();i++){
+			//Sumamos al dinero el precio de la placa
+			dinero += listaPlacas.get(i).getPrecio();
+		
+		}
+		
+		return dinero;
 	}
 	
 	

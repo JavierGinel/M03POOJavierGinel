@@ -18,9 +18,6 @@ public class Main {
 		//CREAMOS LAS LISTAS QUE VAN A GUARDAR DATOS
 		ArrayList <Casa> listaCasas = new ArrayList<>();
 		
-		
-		
-		
 		do {
 			//Esto es lo que hace que el menú funcione. 
 			//Espera hasta que se pone el comando por teclado y lo separa en la lista dades
@@ -28,21 +25,22 @@ public class Main {
 			String comanda = terminal.readLine();
 			String dades[] = comanda.split(" ");
 			
-			switch (dades[0]) {
+			
+			switch (dades[0].toLowerCase()) {
 				//Cuando el comando es quit. Cerramos el programa. ACABADO
 				case "quit": 
-					System.out.print("------------------------------------------------------------------------\r\n"
-							+ "BUILD SUCCESS\r\n"
-							+ "------------------------------------------------------------------------");
+					//Cambiamos la variable salir 
 					salir = true;
+					
 					break;
+					
 					
 					
 					
 					
 				//Cuando el comando es addCasa. 
 					//addCasa [nif] [nom] [superfície]
-				case "addCasa":
+				case "addcasa":
 					
 					//Primero verifiamos que se hayan añadido 4 parametros
 					if (dades.length == 4) {
@@ -71,6 +69,7 @@ public class Main {
 					//Si no se han añadido 4 parametros	
 					}else {
 						System.out.println("ERROR: Número de paràmetres incorrecte.");
+						System.out.println("Ús:  addCasa [nif] [nom] [superfície]");
 					}
 					
 					break;
@@ -80,12 +79,12 @@ public class Main {
 					
 				//Cuando el comando es addPlaca. 
 					//addPlaca [nif] [superficie] [precio] [potencia]
-				case "addPlaca":
+				case "addplaca":
 					//Comprobamos que el numero de parametros sea correcto
 					if (dades.length == 5) {
 						//Pasamos las variables que necesitamos a short
 						short numSuperficie = (short) Integer.parseInt(dades[2]);
-						short numPrecio = (short) Integer.parseInt(dades[3]);
+						double numPrecio = (double) Double.parseDouble(dades[3]);
 						short numPotencia = (short) Integer.parseInt(dades[4]);
 						
 						//Comprobar si el nif tiene una casa
@@ -100,6 +99,7 @@ public class Main {
 								
 								//Sacamos el area restante de esta casa
 								short areaRestante = listaCasas.get(posCasa).getAreaRestante();
+								
 								
 								//Si la placa cabe
 								if (areaRestante>=numSuperficie) {
@@ -129,6 +129,7 @@ public class Main {
 					//Si el numero de parametros no es correcto
 					}else {
 						System.out.println("ERROR: Número de paràmetres incorrecte.");
+						System.out.println("Ús:  addPlaca [nif] [superficie] [precio] [potencia]");
 						
 						
 					}
@@ -140,7 +141,7 @@ public class Main {
 				//Cuando el comando es addAparell. 
 					//addAparell [nif] [descripcio] [potència]
 					
-				case "addAparell":
+				case "addaparell":
 					//Comprobamos que el numero de parametros sea correcto
 					if (dades.length == 4) {
 						//Pasamos las variables que necesitamos a short
@@ -192,7 +193,7 @@ public class Main {
 					
 				//Cuando el comando es onCasa. 	
 					//onCasa [nif]
-				case "onCasa":
+				case "oncasa":
 					//Comprobamos que el numero de parametros sea correcto
 					if (dades.length == 2) {
 						
@@ -223,6 +224,7 @@ public class Main {
 					//Si el numero de parametros no es correcto				
 					}else {
 						System.out.println("ERROR: Número de paràmetres incorrecte.");
+						System.out.println("Ús:  onCasa [nif]");
 					}
 									
 					break;
@@ -232,7 +234,7 @@ public class Main {
 					
 				//Cuando el comando es onAparell. 	
 					//onAparell [nif] [descripció aparell]
-				case "onAparell":
+				case "onaparell":
 					//Comprobamos que el numero de parametros sea correcto
 					if (dades.length == 3) {
 						//Comprobamos que el nif tenga casa
@@ -305,6 +307,7 @@ public class Main {
 					//Si el numero de parametros no es correcto
 					}else {
 						System.out.println("ERROR: Número de paràmetres incorrecte.");
+						System.out.println("Ús:  onAparell [nif] [descripció aparell]");
 					}
 					
 					break;
@@ -316,7 +319,7 @@ public class Main {
 					
 				//Cuando el comando es offAparell. 	
 					//offAparell [nif] [descripció aparell]
-				case "offAparell":
+				case "offaparell":
 					//Comprobamos que el numero de parametros sea correcto
 					if (dades.length == 3) {
 						//Comprobamos que el nif tenga casa
@@ -362,12 +365,8 @@ public class Main {
 					//Si el numero de parametros no es correcto
 					}else {
 						System.out.println("ERROR: Número de paràmetres incorrecte.");
+						System.out.println("Ús:  offAparell [nif] [descripció aparell]");
 					}
-					
-					
-					
-					
-					
 					
 					break;
 					
@@ -396,12 +395,125 @@ public class Main {
 					
 				//Cuando el comando es list. 	
 				case "list":
-					System.out.println("lista");
+					//Comprobamos que el numero de parametros sea correcto
+					if (dades.length == 1) {
+						//Comprobamos que hayan casas
+						if (listaCasas.size()>0) {
+							
+							//Mostramos al usuario todos los datos
+							System.out.println("--- Endolls Solars, S.L. ---");
+							System.out.println("Cases enregistrades:  " + listaCasas.size() + "\n");
+							
+							//Bucle que recorre toda la lista de casas y muestra sus datos al usuario
+							for (short i = 0; i < listaCasas.size(); i++) {
+								System.out.println("Casa " + (i+1));
+								
+								System.out.println("Client: " + listaCasas.get(i).getNif() + " - " + listaCasas.get(i).getNombre());
+								
+								System.out.println("Superfície de teulada: " + listaCasas.get(i).getsuperficie());
+								
+								short areaUtilizada = listaCasas.get(i).getAreaRestante();
+								
+								System.out.println("Superfície disponible: " + (areaUtilizada));
+								
+								//Comprueba si esta encendido el interruptor y muestra encendido o apagado
+								if (listaCasas.get(i).getInterruptor()) {
+									System.out.println("Interruptor general: encès");
+								}else {
+									System.out.println("Interruptor general: apagat");
+								}
+								
+								System.out.println("Plaques solars instal·lades: " + listaCasas.get(i).getPlacas().size());
+								
+								int cantidadAparatos = listaCasas.get(i).getAparatos().size();
+								
+								
+								//Si tiene aparatos registrados
+								if (cantidadAparatos>0) {
+									System.out.println("Aparells registrats: " + cantidadAparatos);
+								//Es igual a 0
+								}else {
+									System.out.println("No té cap aparell elèctric registrat.");
+								}
+								
+								System.out.println();
+								
+								}
+							
+						//Todavia no hay casas registradas
+						}else {
+							System.out.println("No hi ha cases registrades.");
+						}
+						
+						
+					//No es correcto el numero de parametros
+					}else {
+						System.out.println("ERROR: Número de paràmetres incorrecte.");
+						System.out.println("Ús:  list");
+					}
+					
 					break;
 				
+					
+					
+					
+					
 				//Cuando el comando es info. 	
+					//info [nif]
 				case "info":
-					System.out.println("info");
+					//Comprobamos que el numero de parametros sea correcto
+					if (dades.length == 2) {
+						//Comprobamos que el nif tenga casa
+						boolean nifExiste = Funciones.buscaNif(dades[1],listaCasas);
+						short posCasa = Funciones.buscaCasa(dades[1], listaCasas);
+						
+						if (nifExiste) {
+							
+							Casa casa = listaCasas.get(posCasa);
+							
+							//Mostramos al usuario todos los datos
+							System.out.println("Client: " + casa.getNif() + " - " + casa.getNombre());
+							
+							System.out.println("Plaques solars instal·lades: " + casa.getPlacas().size());
+							
+							System.out.println("Potència total: " + casa.potenciaGenerada()+ "W");
+							
+							System.out.println("Inversió total: " + casa.inversion()+ "€");
+							
+							System.out.println("Aparells registrats: " + casa.getAparatos().size());
+							
+							System.out.println("Consum actual: " + casa.potenciaGastada()+ "W");
+							
+							//Si hay aparatos encendidos los mostramos.
+							if(casa.potenciaGastada()>0) {
+								System.out.println("Aparells encesos:" );
+								
+								//Recorremos la lista de aparatos de la casa
+								for (short i = 0; i<casa.getAparatos().size();i++)
+									
+									//mostramos los aparatos que estan encendidos
+									if(casa.getAparatos().get(i).getInterruptor()) {
+										System.out.println("\t- " + casa.getAparatos().get(i).getDescripcion());
+									}
+								
+							}
+							
+							
+							
+							
+						//El nif no tiene casa
+						}else {
+							System.out.println("ERROR: No hi ha cap casa registrada amb aquest nif.");
+						}
+						
+					//Parametros incorrectos
+					}else {
+						System.out.println("ERROR: Número de paràmetres incorrecte.");
+						System.out.println("Ús:  info [nif]");
+					}
+					
+					
+					
 					break;
 					
 					

@@ -2,12 +2,12 @@ package placasSolares;
 
 public class PlacaSolar {
 	private short superficie;
-	private short precio;
+	private double precio;
 	private short potencia;
 	
 	//Metodos
 	//Constructor
-	PlacaSolar(short superficie, short precio, short potencia){
+	PlacaSolar(short superficie, double precio, short potencia){
 		this.superficie = superficie;
 		this.precio = precio;
 		this.potencia = potencia;
@@ -17,7 +17,7 @@ public class PlacaSolar {
 		return superficie;
 	}
 	
-	public short getPrecio() {
+	public double getPrecio() {
 		return precio;
 	}
 	
